@@ -58,7 +58,7 @@ public class GildedRoseTest {
 	
 	@Test
 	public void testSellIn() {
-		//create an inn, add an item, and simulate one day
+		//create an inn, add an item, and simulate five days
 		GildedRose inn = new GildedRose();
 		inn.setItem(new Item("+5 Dexterity Vest", 5, 3));
 		inn.oneDay();
@@ -72,7 +72,7 @@ public class GildedRoseTest {
 		int sellIn = items.get(0).getSellIn();
 		
 		//assert sellIn has decreased by five
-		assertEquals("Failed quality for Dexterity Vest", 0, sellIn);
+		assertEquals("Failed SellIn for Dexterity Vest", 0, sellIn);
 		
 		inn.oneDay();
 		
@@ -81,7 +81,7 @@ public class GildedRoseTest {
 		sellIn = items.get(0).getSellIn();
 		
 		//assert SellIn has decreased by one
-		assertEquals("Failed quality for Dexterity Vest", -1, sellIn);
+		assertEquals("Failed SellIn for Dexterity Vest", -1, sellIn);
 	}
 	
 	@Test
@@ -155,7 +155,7 @@ public class GildedRoseTest {
 	@Test
 	public void testSulfuras() {
 		String itemName = "Sulfuras, Hand of Ragnaros";
-		//create an inn, add an item, and simulate one day
+		//create an inn, add an item, and simulate six days
 		GildedRose inn = new GildedRose();
 		inn.setItem(new Item(itemName, 0, 80));
 		inn.oneDay();
@@ -175,6 +175,64 @@ public class GildedRoseTest {
 		
 		//assert quality is not negative
 		assertEquals("Failed quality for " + itemName, 80, quality);
+	}
+	
+	@Test
+	public void testSulfurasNegativeSellIn() {
+		String itemName = "Sulfuras, Hand of Ragnaros";
+		//create an inn, add an item, and simulate six days
+		GildedRose inn = new GildedRose();
+		inn.setItem(new Item(itemName, -1, 80));
+		inn.oneDay();
+		
+		//access a list of items, get the quality of the one set
+		List<Item> items = inn.getItems();
+		int quality = items.get(0).getQuality();
+		int SellIn = items.get(0).getSellIn();
+		
+		//assert quality has decreased to zero
+		assertEquals("Failed quality for " + itemName, 80, quality);
+		assertEquals("Failed SellIn for " + itemName, -1, SellIn);
+		
+		inn.oneDay();
+		
+		//access a list of items, get the quality of the one set
+		items = inn.getItems();
+		quality = items.get(0).getQuality();
+	    SellIn = items.get(0).getSellIn();
+		
+		//assert quality is not negative
+		assertEquals("Failed quality for " + itemName, 80, quality);
+		assertEquals("Failed SellIn for " + itemName, -1, SellIn);
+	}
+	
+	@Test
+	public void testSulfurasPostiveSellIn() {
+		String itemName = "Sulfuras, Hand of Ragnaros";
+		//create an inn, add an item, and simulate six days
+		GildedRose inn = new GildedRose();
+		inn.setItem(new Item(itemName, 1, 80));
+		inn.oneDay();
+		
+		//access a list of items, get the quality of the one set
+		List<Item> items = inn.getItems();
+		int quality = items.get(0).getQuality();
+		int SellIn = items.get(0).getSellIn();
+		
+		//assert quality has decreased to zero
+		assertEquals("Failed quality for " + itemName, 80, quality);
+		assertEquals("Failed SellIn for " + itemName, 1, SellIn);
+		
+		inn.oneDay();
+		
+		//access a list of items, get the quality of the one set
+		items = inn.getItems();
+		quality = items.get(0).getQuality();
+	    SellIn = items.get(0).getSellIn();
+		
+		//assert quality is not negative
+		assertEquals("Failed quality for " + itemName, 80, quality);
+		assertEquals("Failed SellIn for " + itemName, 1, SellIn);
 	}
 		
 	@Test
@@ -240,5 +298,10 @@ public class GildedRoseTest {
 		
 		//assert quality is not negative
 		assertEquals("Failed quality for " + itemName, 0, quality);
+	}
+	
+	@Test
+	public void testMain() {
+		GildedRose.main(new String[0]);
 	}
 }
